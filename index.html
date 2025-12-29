@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>The Package</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="icon" type="image/png" href="assets/img/icon-box.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- Stars background -->
+<div class="stars" id="stars"></div>
+
+<div class="screen">
+  <div class="game">
+    <!-- Background image -->
+    <img src="assets/img/bg.png" class="bg" alt="Background">
+
+    <!-- Progress bar -->
+    <div class="progress-bar" id="progressBar">
+      <div class="progress-fill"></div>
+    </div>
+
+    <!-- Instruction -->
+    <div class="instruction" id="instruction">🏠 Klik rumah untuk memulai! 🎮</div>
+    
+    <!-- Sound toggle -->
+    <div class="sound-toggle" id="soundToggle">🔊</div>
+
+    <!-- House -->
+    <img src="assets/img/house.png" class="house" id="house" alt="House">
+
+    <!-- Character (hidden inside house initially) -->
+    <img src="assets/img/character.png" class="character hidden" id="character" alt="Character">
+
+    <!-- Letter area -->
+    <div class="letter-area">
+      <img src="assets/img/hand.png" class="ambil-btn" id="ambilBtn" alt="Take">
+      <img src="assets/img/letter.png" class="letter" alt="Letter">
+    </div>
+
+    <!-- Dialog Overlay -->
+    <div class="dialog-overlay" id="dialogOverlay"></div>
+
+    <!-- Dialog Box -->
+    <div class="dialog-box" id="dialogBox">
+      <div class="dialog-header">
+        <div class="dialog-avatar">🙍‍♀️</div>
+        <div class="dialog-name">Electra</div>
+      </div>
+      <div class="dialog-text" id="dialogText"></div>
+      <div class="dialog-options" id="dialogOptions"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Transition overlay -->
+<div class="transition" id="transition"></div>
+
+<script src="assets/js/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,527 @@
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: fixed;
+      touch-action: manipulation;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Efek bintang di background */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 3s infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* Layar pembungkus */
+    .screen {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* GAME AREA - Menggunakan aspect ratio 16:9 */
+    .game {
+      position: relative;
+      width: 100vw;
+      height: 56.25vw; /* 16:9 aspect ratio */
+      max-height: 100vh;
+      max-width: 177.78vh; /* 16:9 aspect ratio terbalik */
+      background: #87CEEB;
+      overflow: hidden;
+    }
+
+    /* Semua gambar pixel perfect */
+    img {
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
+      user-select: none;
+      -webkit-user-drag: none;
+      -webkit-touch-callout: none;
+    }
+
+    /* Background */
+    .bg {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      object-fit: cover;
+    }
+
+    /* Rumah - responsive percentage based */
+    .house {
+      position: absolute;
+      bottom: 10%;
+      left: 10%;
+      width: 33%;
+      height: auto;
+      max-width: 620px;
+      filter: drop-shadow(0.5vw 0.5vw 1vw rgba(0,0,0,0.5));
+      transition: transform 0.3s;
+      cursor: pointer;
+      z-index: 5;
+    }
+
+    .house:hover {
+      transform: scale(1.05);
+      filter: drop-shadow(0.5vw 0.5vw 1.5vw rgba(255,215,0,0.6));
+    }
+
+    .house.shake {
+      animation: houseShake 0.5s;
+    }
+
+    @keyframes houseShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-1%) rotate(-1deg); }
+      75% { transform: translateX(1%) rotate(1deg); }
+    }
+
+    /* Character - responsive percentage based */
+    .character {
+      position: absolute;
+      bottom: 12%;
+      left: 82%;
+      width: 12.5%;
+      height: auto;
+      max-width: 250px;
+      transition: left 2.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s;
+      z-index: 10;
+      filter: drop-shadow(0.3vw 0.3vw 0.6vw rgba(0,0,0,0.4));
+    }
+
+    .character.hidden {
+      opacity: 0;
+      left: 20%;
+      pointer-events: none;
+    }
+
+    .character.exiting {
+      left: 30%;
+      opacity: 1;
+    }
+
+    .character.walking {
+      animation: characterWalk 0.6s infinite;
+    }
+
+    @keyframes characterWalk {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4%); }
+    }
+
+    /* Letter area - responsive percentage based */
+    .letter-area {
+      position: absolute;
+      bottom: 10%;
+      right: 18%;
+      text-align: center;
+      animation: letterPulse 2s infinite;
+      z-index: 5;
+    }
+
+    @keyframes letterPulse {
+      0%, 100% { 
+        filter: drop-shadow(0 0 0.5vw rgba(255,223,0,0.6));
+        transform: translateY(0);
+      }
+      50% { 
+        filter: drop-shadow(0 0 1.2vw rgba(255,223,0,0.9));
+        transform: translateY(-3%);
+      }
+    }
+
+    /* Letter - responsive */
+    .letter {
+      width: 8.3%;
+      height: auto;
+      min-width: 50px;
+      max-width: 80px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Tombol tangan - responsive */
+    .ambil-btn {
+      width: 8.3%;
+      height: auto;
+      min-width: 50px;
+      max-width: 80px;
+      margin-top: 1.2%;
+      cursor: pointer;
+      animation: bounce 1s infinite;
+      transition: all 0.3s;
+      filter: brightness(1);
+    }
+
+    .ambil-btn:hover, .ambil-btn:active {
+      animation: bounceHover 0.5s infinite;
+      filter: brightness(1.3) drop-shadow(0 0 1vw rgba(255,255,255,0.8));
+      transform: scale(1.15);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8%); }
+    }
+
+    @keyframes bounceHover {
+      0%, 100% { transform: translateY(-5%) scale(1.15); }
+      50% { transform: translateY(-12%) scale(1.15); }
+    }
+
+    .ambil-btn.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      animation: none;
+      filter: grayscale(0.5);
+    }
+
+    /* Instruksi dengan style pixel */
+    .instruction {
+      position: absolute;
+      top: 3%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-size: clamp(10px, 1.6vw, 16px);
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+      text-shadow: 0.2vw 0.2vw 0 rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.5);
+      padding: clamp(8px, 1.5vw, 15px) clamp(15px, 3vw, 30px);
+      border-radius: 30px;
+      border: 3px solid #ffd700;
+      animation: instructionBlink 2s infinite;
+      z-index: 100;
+      white-space: nowrap;
+      max-width: 90%;
+      text-align: center;
+    }
+
+    @keyframes instructionBlink {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 1; border-color: #ffed4e; }
+    }
+
+    /* Transition overlay */
+    .transition {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s;
+    }
+
+    .transition.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Particle confetti */
+    .confetti-particle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    @keyframes confettiFall {
+      to {
+        transform: translateY(600px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* Sound toggle button */
+    .sound-toggle {
+      position: absolute;
+      top: 3%;
+      right: 3%;
+      width: clamp(35px, 5vw, 50px);
+      height: clamp(35px, 5vw, 50px);
+      background: rgba(0,0,0,0.6);
+      border: 3px solid #ffd700;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(18px, 2.5vw, 24px);
+      transition: all 0.3s;
+      z-index: 100;
+      box-shadow: 0 0.5vw 1.5vw rgba(0,0,0,0.5);
+    }
+
+    .sound-toggle:hover, .sound-toggle:active {
+      background: rgba(255,215,0,0.3);
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 0.8vw 2.5vw rgba(255,215,0,0.5);
+    }
+
+    /* Progress indicator */
+    .progress-bar {
+      position: absolute;
+      top: 2%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(120px, 20vw, 200px);
+      height: clamp(6px, 0.8vw, 8px);
+      background: rgba(0,0,0,0.5);
+      border: 2px solid #4a5568;
+      border-radius: 10px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .progress-bar.active {
+      display: block;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4ecdc4, #44a08d);
+      width: 0%;
+      transition: width 2.5s linear;
+      box-shadow: 0 0 1vw rgba(78, 205, 196, 0.8);
+    }
+
+    .progress-bar.active .progress-fill {
+      width: 100%;
+    }
+
+    /* Dialog Box - fully responsive */
+    .dialog-box {
+      position: absolute;
+      bottom: 37%;
+      left: 45%;
+      transform: translateX(-50%) scale(0);
+      width: clamp(280px, 52%, 500px);
+      background: rgba(0, 0, 0, 0.95);
+      border: clamp(3px, 0.4vw, 4px) solid #f860ca;
+      border-radius: clamp(10px, 1.5vw, 15px);
+      padding: clamp(12px, 2vw, 20px) clamp(15px, 2.5vw, 25px);
+      z-index: 200;
+      box-shadow: 0 1vw 4vw rgba(0,0,0,0.8);
+      transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .dialog-box.active {
+      transform: translateX(-50%) scale(1);
+    }
+
+    .dialog-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: clamp(8px, 1.2vw, 12px);
+      gap: clamp(6px, 1vw, 10px);
+    }
+
+    .dialog-avatar {
+      width: clamp(28px, 4vw, 40px);
+      height: clamp(28px, 4vw, 40px);
+      background: #4ecdc4;
+      border: clamp(2px, 0.3vw, 3px) solid #f860ca;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(16px, 2vw, 20px);
+      flex-shrink: 0;
+    }
+
+    .dialog-name {
+      color: #f860ca;
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+      font-size: clamp(11px, 1.4vw, 14px);
+      text-shadow: 0.2vw 0.2vw 0 rgba(0,0,0,0.5);
+    }
+
+    .dialog-text {
+      color: white;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(11px, 1.5vw, 15px);
+      line-height: 1.6;
+      margin-bottom: clamp(10px, 1.5vw, 15px);
+      text-shadow: 0.1vw 0.1vw 0 rgba(0,0,0,0.5);
+      word-wrap: break-word;
+    }
+
+    .dialog-options {
+      display: flex;
+      gap: clamp(6px, 1vw, 10px);
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .dialog-btn {
+      background: linear-gradient(180deg, #d613bc 0%, #c63ed8 100%);
+      border: clamp(2px, 0.3vw, 3px) solid #f3f3f3;
+      color: white;
+      padding: clamp(8px, 1vw, 10px) clamp(12px, 2vw, 20px);
+      border-radius: clamp(6px, 0.8vw, 8px);
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: clamp(10px, 1.3vw, 13px);
+      transition: all 0.3s;
+      box-shadow: 0 0.4vw 0 #7d2d96;
+      text-shadow: 0.1vw 0.1vw 0 rgba(0,0,0,0.3);
+      white-space: nowrap;
+      touch-action: manipulation;
+    }
+
+    .dialog-btn:hover, .dialog-btn:active {
+      transform: translateY(-0.2vw);
+      box-shadow: 0 0.6vw 0 #e041b0;
+      background: linear-gradient(180deg, #d95fd9 0%, #b550ad 100%);
+    }
+
+    .dialog-btn:active {
+      transform: translateY(0.2vw);
+      box-shadow: 0 0.2vw 0 #962d91;
+    }
+
+    .dialog-btn.secondary {
+      background: linear-gradient(180deg, #95a5a6 0%, #7f8c8d 100%);
+      border-color: #5d6d6e;
+      box-shadow: 0 0.4vw 0 #5d6d6e;
+    }
+
+    .dialog-btn.secondary:hover, .dialog-btn.secondary:active {
+      background: linear-gradient(180deg, #a8b9ba 0%, #8c9c9d 100%);
+      box-shadow: 0 0.6vw 0 #5d6d6e;
+    }
+
+    .dialog-btn.secondary:active {
+      box-shadow: 0 0.2vw 0 #5d6d6e;
+    }
+
+
+    /* Overlay untuk dialog */
+    .dialog-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 199;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .dialog-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Mobile specific optimizations */
+    @media (max-width: 768px) {
+      .instruction {
+        font-size: clamp(8px, 2.5vw, 12px);
+        padding: clamp(6px, 2vw, 10px) clamp(10px, 4vw, 20px);
+        white-space: normal;
+        line-height: 1.3;
+      }
+
+      .dialog-box {
+        width: 85%;
+        bottom: 30%;
+      }
+
+      .dialog-options {
+        justify-content: center;
+      }
+
+      .dialog-btn {
+        flex: 1;
+        min-width: 100px;
+        justify-content: center;
+      }
+    }
+
+    /* Very small screens */
+    @media (max-width: 400px) {
+      .instruction {
+        font-size: clamp(7px, 3vw, 10px);
+      }
+
+      .dialog-text {
+        font-size: clamp(9px, 2.5vw, 12px);
+      }
+
+      .dialog-btn {
+        font-size: clamp(8px, 2.2vw, 11px);
+        padding: clamp(6px, 1.5vw, 8px) clamp(10px, 3vw, 15px);
+      }
+    }
+
+    /* Landscape mode for mobile */
+    @media (orientation: landscape) and (max-height: 500px) {
+      .game {
+        width: 100vh;
+        height: 56.25vh;
+        max-width: 177.78vh;
+        max-height: 100vh;
+      }
+
+      .instruction {
+        top: 5%;
+        font-size: clamp(8px, 1.5vh, 12px);
+      }
+
+      .sound-toggle {
+        top: 5%;
+        right: 5%;
+      }
+
+      .dialog-box {
+        bottom: 15%;
+        width: 60%;
+      }
+    }

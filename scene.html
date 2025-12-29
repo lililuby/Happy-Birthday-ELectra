@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Letter</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <link rel="icon" type="image/png" href="assets/img/icon-letter.png">
+    <link rel="stylesheet" href="assets/css/scene.css" />
+  </head>
+  <body>
+    <!-- Particles background -->
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+      <!-- Sound toggle -->
+      <div class="sound-toggle" id="soundToggle">🔊</div>
+
+      <!-- Envelope wrapper -->
+      <div class="envelope-wrapper">
+        <!-- Decorative elements -->
+        <div class="letter-decoration deco-1">✨</div>
+        <div class="letter-decoration deco-2">🎈</div>
+        <div class="letter-decoration deco-3">🎁</div>
+        <div class="letter-decoration deco-4">🎉</div>
+
+        <!-- Envelope -->
+        <div class="envelope" id="envelope">
+          <div class="envelope-flap"></div>
+
+          <!-- Letter paper -->
+          <div class="letter-paper" id="letterPaper">
+            <div class="letter-header">Happy Birthday</div>
+
+            <div class="letter-greeting">Happy Birthday, Electra</div>
+
+            <div class="letter-body">
+              <p>
+                You are like the sun..always warm, always bright, always
+                bringing light without even trying. Your cheerfulness has a
+                quiet way of reaching people, and it makes the days feel easier
+                just by being there.
+              </p>
+
+              <p>
+                Through simple moments, through games we play and laughs we
+                share, you’ve been a constant source of warmth. Even in ordinary
+                times, your presence feels comforting, like sunlight in the
+                morning.
+              </p>
+
+              <p>
+                I hope this new year returns all the light you give to others.
+                May your days be soft, your smile stay genuine, and your heart
+                always find reasons to feel happy.
+              </p>
+
+              <p>Thank you for being the sunshine you are, Electra.</p>
+
+              <p>Happy Birthday</p>
+              
+            </div>
+            <div class="letter-ps">
+            P.S. Aku sudah menyiapkan hadiah untukmu! Klik tombol Lanjut ke kejutan 🎁✨
+            </div>
+          </div>
+        </div>
+
+        <!-- Click instruction -->
+        <div class="click-instruction" id="clickInstruction">
+          📧 Klik amplop untuk membuka surat
+        </div>
+
+        <!-- Next button -->
+        <div class="next-btn" id="nextBtn">
+          Lanjut ke Kejutan 🎁 <span class="arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transition overlay -->
+    <div class="transition" id="transition"></div>
+    <audio id="bgMusic" loop>
+      <source src="/assets/music.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script src="assets/js/scene.js"></script>
+  </body>
+</html>
